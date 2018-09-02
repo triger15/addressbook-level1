@@ -129,6 +129,11 @@ public class AddressBook {
     private static final String COMMAND_HELP_DESC = "Shows program usage instructions.";
     private static final String COMMAND_HELP_EXAMPLE = COMMAND_HELP_WORD;
 
+    private static final String COMMAND_GENERATE_WORD = "generate";
+    private static final String COMMAND_GENERATE_DESC = "Generates up to 5 persons for testing.";
+    private static final String COMMAND_GENERATE_PARAMETERS = "PERSONS";
+    private static final String COMMAND_GENERATE_EXAMPLE = COMMAND_GENERATE_WORD + "4.";
+
     private static final String COMMAND_EXIT_WORD = "exit";
     private static final String COMMAND_EXIT_DESC = "Exits the program.";
     private static final String COMMAND_EXIT_EXAMPLE = COMMAND_EXIT_WORD;
@@ -381,6 +386,8 @@ public class AddressBook {
             return executeClearAddressBook();
         case COMMAND_HELP_WORD:
             return getUsageInfoForAllCommands();
+        case COMMAND_GENERATE_WORD:
+            return executeGeneratePersons(commandArgs);
         case COMMAND_EXIT_WORD:
             executeExitProgramRequest();
         default:
@@ -428,6 +435,22 @@ public class AddressBook {
         final String[] personToAdd = decodeResult.get();
         addPersonToAddressBook(personToAdd);
         return getMessageForSuccessfulAddPerson(personToAdd);
+    }
+
+    /**
+     * Generates 5 persons to the address book for testing.
+     */
+    private static String executeGeneratePersons(String persons) {
+        int number = Integer.parseInt(persons);
+        String[] names = {"Tom Brady", "Elsa Hosk", "Victoria Beckham", "Luis Suarez", "Tom Cruise"};
+        String[] numbers = {"91123243", "91334143", "21212343", "98212343", "91673443"};
+        String[] emails = {"brady@gmail.com", "elsa@gmail.com", "vic@xyz.com", "luis@msn.com", "cruise@x.com"};
+        String result = "\n";
+
+        for (int i = 0; i < number; i++) {
+            result = result + executeAddPerson("add " + names[i] + " p/" + numbers[i] + " e/" + emails[i]) + "\n";
+        }
+        return result;
     }
 
     /**
